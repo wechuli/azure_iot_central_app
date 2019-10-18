@@ -1,3 +1,4 @@
+
 ## Defining a New Device Type
 
 You can use a device template to define a new type of device in your Microsoft Azure IoT Central Application. A device template defines the telemetry, state, properties, and settings for your device type.
