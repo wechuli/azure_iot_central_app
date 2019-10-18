@@ -1,0 +1,12 @@
+{
+  "name": "connectedairconditioner",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "azure-iot-device": "^1.12.0",
+    "azure-iot-device-mqtt": "^1.11.0",
+    "azure-iot-provisioning-device-mqtt": "^1.6.0",
+    "azure-iot-security-symmetric-key": "^1.6.0"
+  }
+}
