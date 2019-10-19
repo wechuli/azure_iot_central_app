@@ -60,3 +60,9 @@ Note: - this feature is available only on the Azure IoT Central Preview applicat
 ### references
 
 - https://docs.microsoft.com/en-ca/samples/azure-samples/functions-js-iot-hub-processing/processing-data-from-iot-hub-with-azure-functions/
+
+
+## Setting Up IoT Hub and provisioning Devices
+
+### references
+- https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node
