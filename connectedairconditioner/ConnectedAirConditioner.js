@@ -30,7 +30,23 @@ let targetTemperature = 0;
 // Send device measurements.
 function sendTelemetry() {
   var temperature = targetTemperature + Math.random() * 15;
-  var data = JSON.stringify({ temperature: temperature });
+
+  let output = {
+    deviceId,
+    temperature,
+    humidity,
+    tempStatus,
+    chanceOfRain,
+    tempInFarenheight,
+    uniqueMsgString: uuidv4()
+  };
+
+  var data = JSON.stringify({
+    temperature: tempInFarenheight,
+    humidity,
+    tempStatus,
+    chanceOfRain
+  });
   var message = new Message(data);
   hubClient.sendEvent(message, (err, res) =>
     console.log(
@@ -57,7 +73,7 @@ function sendDeviceProperties(twin) {
 
 // Add any settings your device supports
 // mapped to a function that is called when the setting is changed.
-var settings = {
+const settings = {
   setTemperature: (newValue, callback) => {
     // Simulate the temperature setting taking two steps.
     setTimeout(() => {
@@ -113,7 +129,7 @@ function onCommandEcho(request, response) {
 }
 
 // Handle device connection to Azure IoT Central.
-var connectCallback = err => {
+const connectCallback = err => {
   if (err) {
     console.log(
       `Device could not connect to Azure IoT Central: ${err.toString()}`
@@ -125,7 +141,8 @@ var connectCallback = err => {
     hubClient.onDeviceMethod("echo", onCommandEcho);
 
     // Send telemetry measurements to Azure IoT Central every 1 second.
-    setInterval(sendTelemetry, 1000);
+    // setInterval(sendTelemetry, 1000);
+    sendTelemetry();
 
     // Get device twin from Azure IoT Central.
     hubClient.getTwin((err, twin) => {

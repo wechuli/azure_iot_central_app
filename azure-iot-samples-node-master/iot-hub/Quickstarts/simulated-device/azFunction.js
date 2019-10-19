@@ -1,3 +1,8 @@
+var Mqtt = require("azure-iot-device-mqtt").Mqtt;
+var DeviceClient = require("azure-iot-device").Client;
+var Message = require("azure-iot-device").Message;
+const uuidv4 = require("uuid/v4");
+
 module.exports = function(context, IoTHubMessages) {
   context.log(
     `JavaScript eventhub trigger function called for message array: ${IoTHubMessages}`
@@ -37,7 +42,7 @@ module.exports = function(context, IoTHubMessages) {
 
   //calculate temprature in Fanhrenheit
   function calculateTempInFahr(temp) {
-    return temp * (9 / 5) + 32;
+    return parseFloat((temp * (9 / 5) + 32).toFixed(2));
   }
   tempInFarenheight = calculateTempInFahr(temperature);
 
@@ -47,7 +52,8 @@ module.exports = function(context, IoTHubMessages) {
     humidity,
     tempStatus,
     chanceOfRain,
-    tempInFarenheight
+    tempInFarenheight,
+    uniqueMsgString: uuidv4()
   };
 
   context.log(`Output content: ${output}`);
