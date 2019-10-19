@@ -1,0 +1,78 @@
+{
+    "invocationId": "425df4ab-0528-4346-9223-d9edee234f65",
+    "executionContext": {
+        "invocationId": "425df4ab-0528-4346-9223-d9edee234f65",
+        "functionName": "IoTHub_EventHub1",
+        "functionDirectory": "D:\\home\\site\\wwwroot\\IoTHub_EventHub1"
+    },
+    "bindings": {
+        "IoTHubMessages": [{
+            "temperature": 23.44689704741516,
+            "humidity": 79.74296029185356
+        }]
+    },
+    "bindingData": {
+        "invocationId": "425df4ab-0528-4346-9223-d9edee234f65",
+        "partitionContext": {
+            "cancellationToken": {
+                "isCancellationRequested": false,
+                "canBeCanceled": true,
+                "waitHandle": {
+                    "handle": {
+                        "value": 5544
+                    },
+                    "safeWaitHandle": {
+                        "isInvalid": false,
+                        "isClosed": false
+                    }
+                }
+            },
+            "consumerGroupName": "$Default",
+            "eventHubPath": "iotcentralhub",
+            "partitionId": "0",
+            "owner": "78f5b485-b395-4010-81e6-0e80a421591b",
+            "runtimeInformation": {
+                "partitionId": "0",
+                "lastSequenceNumber": 0,
+                "lastEnqueuedTimeUtc": "0001-01-01T00:00:00",
+                "lastEnqueuedOffset": null,
+                "retrievalTime": "0001-01-01T00:00:00"
+            }
+        },
+        "partitionKeyArray": [null],
+        "offsetArray": ["772896"],
+        "sequenceNumberArray": [1675],
+        "enqueuedTimeUtcArray": ["2019-10-19T13:14:39.702Z"],
+        "propertiesArray": [{
+            "temperatureAlert": "false"
+        }],
+        "systemPropertiesArray": [{
+            "iothub-connection-device-id": "temp_humidity_sensor",
+            "iothub-connection-auth-method": "{\"scope\":\"device\",\"type\":\"sas\",\"issuer\":\"iothub\",\"acceptingIpFilterRule\":null}",
+            "iothub-connection-auth-generation-id": "637070720423525524",
+            "iothub-enqueuedtime": "2019-10-19T13:14:39.705Z",
+            "iothub-message-source": "Telemetry",
+            "x-opt-sequence-number": 1675,
+            "x-opt-offset": "772896",
+            "x-opt-enqueued-time": "2019-10-19T13:14:39.702Z",
+            "SequenceNumber": 1675,
+            "Offset": "772896",
+            "PartitionKey": null,
+            "EnqueuedTimeUtc": "2019-10-19T13:14:39.702Z"
+        }],
+        "sys": {
+            "methodName": "IoTHub_EventHub1",
+            "utcNow": "2019-10-19T13:14:41.4743314Z",
+            "randGuid": "bff1e4f1-561c-4bb5-a045-f7f5c3aee755"
+        }
+    },
+    "bindingDefinitions": [{
+        "name": "IoTHubMessages",
+        "type": "eventHubTrigger",
+        "direction": "in"
+    }, {
+        "name": "outputDocument",
+        "type": "cosmosDB",
+        "direction": "out"
+    }]
+}

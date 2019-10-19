@@ -25,6 +25,7 @@ var DeviceClient = require("azure-iot-device").Client;
 var Message = require("azure-iot-device").Message;
 
 var client = DeviceClient.fromConnectionString(connectionString, Mqtt);
+let deviceId = "temp_humidity_sensor";
 
 // Create a message and send it to the IoT hub every second
 setInterval(function() {
@@ -32,8 +33,10 @@ setInterval(function() {
   var temperature = 20 + Math.random() * 15;
   var message = new Message(
     JSON.stringify({
-      temperature: temperature,
-      humidity: 60 + Math.random() * 20
+      
+      temperature: parseFloat(temperature.toFixed(2)),
+      humidity: parseFloat((60 + Math.random() * 30).toFixed(2)),
+      deviceId
     })
   );
 
@@ -43,7 +46,6 @@ setInterval(function() {
     "temperatureAlert",
     temperature > 30 ? "true" : "false"
   );
-
 
   console.log("Sending message: " + message.getData());
 
