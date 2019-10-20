@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "IotHubs_iotcentralhub_name": {
+            "value": null
+        },
+        "serverfarms_CentralUSPlan_name": {
+            "value": null
+        },
+        "sites_azureiotcentralfunctionapp_name": {
+            "value": null
+        },
+        "storageAccounts_azureiotcentral811c_name": {
+            "value": null
+        },
+        "databaseAccounts_iotcentraldatabase_name": {
+            "value": null
+        },
+        "components_azureiotcentralfunctionapp_name": {
+            "value": null
+        },
+        "actionGroups_Application_20Insights_20Smart_20Detection_name": {
+            "value": null
+        }
+    }
+}
