@@ -67,3 +67,17 @@ Note: - this feature is available only on the Azure IoT Central Preview applicat
 ### references
 
 - https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node
+
+
+## Creating Azure Central Application from Template
+
+Create an Azure Central application through a custom application template obtained from the running app.
+
+### references
+https://docs.microsoft.com/en-us/azure/iot-central/howto-manage-iot-central-from-cli
+
+## Provisioning Multiple Devices
+
+### references
+- https://www.youtube.com/watch?v=w1qwfIrUFOQ
+- https://docs.microsoft.com/en-us/azure/iot-central/concepts-connectivity#connect-devices-at-scale-using-shared-access-signatures

@@ -3,25 +3,25 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "IotHubs_iotcentralhub_name": {
-            "value": null
+            "value": "iotcentralhubdeployed"
         },
         "serverfarms_CentralUSPlan_name": {
-            "value": null
+            "value": "azfunctioniotcentra33"
         },
         "sites_azureiotcentralfunctionapp_name": {
-            "value": null
+            "value": "functionappazapp343"
         },
         "storageAccounts_azureiotcentral811c_name": {
-            "value": null
+            "value": "rand43storageacc"
         },
         "databaseAccounts_iotcentraldatabase_name": {
-            "value": null
+            "value": "cosmosdbfordeploy432"
         },
         "components_azureiotcentralfunctionapp_name": {
-            "value": null
+            "value": "azurecentralcompnents5"
         },
         "actionGroups_Application_20Insights_20Smart_20Detection_name": {
-            "value": null
+            "value": "ewhlfsof9we"
         }
     }
 }
