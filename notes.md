@@ -81,3 +81,8 @@ https://docs.microsoft.com/en-us/azure/iot-central/howto-manage-iot-central-from
 ### references
 - https://www.youtube.com/watch?v=w1qwfIrUFOQ
 - https://docs.microsoft.com/en-us/azure/iot-central/concepts-connectivity#connect-devices-at-scale-using-shared-access-signatures
+
+## Develop For Azure Function using VS Code
+
+### References
+- https://www.youtube.com/watch?v=h4WeWX_CRJM
