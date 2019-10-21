@@ -26,8 +26,8 @@
             "defaultValue": "azureiotcentralfunctionapp",
             "type": "String"
         },
-        "actionGroups_Application_20Insights_20Smart_20Detection_name": {
-            "defaultValue": "Application%20Insights%20Smart%20Detection",
+        "provisioningServices_iotcentralprovisioningservice_name": {
+            "defaultValue": "iotcentralprovisioningservice",
             "type": "String"
         }
     },
@@ -39,8 +39,8 @@
             "name": "[parameters('IotHubs_iotcentralhub_name')]",
             "location": "westus",
             "sku": {
-                "name": "B1",
-                "tier": "Basic",
+                "name": "S1",
+                "tier": "Standard",
                 "capacity": 1
             },
             "properties": {
@@ -124,6 +124,26 @@
             }
         },
         {
+            "type": "Microsoft.Devices/provisioningServices",
+            "apiVersion": "2017-11-15",
+            "name": "[parameters('provisioningServices_iotcentralprovisioningservice_name')]",
+            "location": "westus",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "properties": {
+                "iotHubs": [
+                    {
+                        "name": "iotcentralhub.azure-devices.net",
+                        "connectionString": "HostName=iotcentralhub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=****",
+                        "location": "westus"
+                    }
+                ]
+            }
+        },
+        {
             "type": "Microsoft.DocumentDB/databaseAccounts",
             "apiVersion": "2019-08-01",
             "name": "[parameters('databaseAccounts_iotcentraldatabase_name')]",
@@ -152,25 +172,6 @@
                     }
                 ],
                 "capabilities": []
-            }
-        },
-        {
-            "type": "microsoft.insights/actionGroups",
-            "apiVersion": "2019-03-01",
-            "name": "[parameters('actionGroups_Application_20Insights_20Smart_20Detection_name')]",
-            "location": "Global",
-            "properties": {
-                "groupShortName": "SmartDetect",
-                "enabled": true,
-                "emailReceivers": [],
-                "smsReceivers": [],
-                "webhookReceivers": [],
-                "itsmReceivers": [],
-                "azureAppPushReceivers": [],
-                "automationRunbookReceivers": [],
-                "voiceReceivers": [],
-                "logicAppReceivers": [],
-                "azureFunctionReceivers": []
             }
         },
         {
