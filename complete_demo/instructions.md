@@ -28,6 +28,13 @@ To put the solution together, we will make use the following Azure services:
             $ az login
 
     This will log you in to the approriate azure account you want to use.
+3. We start by creating a resource group. A resource group is a container that holds related resources for an Azure solution. Replace *ExampleGroup* with the name you want to give to your resource group. Depending on where you are located, you may want to change the location, but this is not important for now.
+
+        $az group create --name ExampleGroup --location "East US"
+
+Take a note of the resource group name you used above, you will need it in subsequent steps.
+
+4. Now that we have a nice container for our resources, we can begin deploying the resources. We will deploy the Azure IoT Hub, a Function App (where our Azure Functions will be hosted) and the Azure Cosmos DB for data storage. The deployment template and a parameter file is provided in this folder. cd into the *deployment_templates*. There are two files, the template.json files describes the resources that will be provisioned in Azure and parameters.json are the parameters that will be used to deploy the parameters.
 
 ## Note
 
