@@ -1,4 +1,16 @@
-## De
+# Azure IoT Central PoC Demo
+
+This is a demo to show how Azure IoT Hub and Azure IoT Central Services can be used to deliver an end-to-end IoT solution, from devices to visualization in IoT Central dashboard.
+
+## What You'll need
+
+- Azure account with a subscription
+- A text editor
+- Deployment code and files found in this folder
+
+## Instructions
+
+1
 
 ## Note
 - Make use of the azure cli top create the devices
