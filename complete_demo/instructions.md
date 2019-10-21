@@ -4,13 +4,14 @@ This is a demo to show how Azure IoT Hub and Azure IoT Central Services can be u
 
 ## Overview of What We'll build
 
-We'
+We will build a simple and common IoT flow, where we have we have a device, it securely connects to an endpoint in the cloud and sends its telemetry. We will then process this telemetry and store the data in a database. Finally, we will visualize the transformed telemetry information for business for business intelligence.
 
 ## What You'll need
 
 - Azure account with a subscription
 - A text editor
 - Deployment code and files found in this folder
+- Basic knowledge of any programming language
 
 ## Instructions
 
