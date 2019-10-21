@@ -2,6 +2,10 @@
 
 This is a demo to show how Azure IoT Hub and Azure IoT Central Services can be used to deliver an end-to-end IoT solution, from devices to visualization in IoT Central dashboard.
 
+## Overview of What We'll build
+
+We'
+
 ## What You'll need
 
 - Azure account with a subscription
