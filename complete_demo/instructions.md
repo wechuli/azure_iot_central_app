@@ -33,7 +33,7 @@ To put the solution together, we will make use the following Azure services:
 
     This will log you in to the approriate azure account you want to use.
 
-3.  We start by creating a resource group. A resource group is a container that holds related resources for an Azure solution. Replace _example_ with the name you want to give to your resource group. Depending on where you are located, you may want to change the location, but this is not important for now.
+3.  We start by creating a resource group. A resource group is a container that holds related resources for an Azure solution.You may replace _example_ with the name you want to give to your resource group but remember to change to that name whenever we need to deploy additional resource. Depending on where you are located, you may want to change the location, but this is not important for now.
 
         $az group create --name example --location "East US"
 
@@ -45,13 +45,13 @@ Take a note of the resource group name you used above, you will need it in subse
 
         $ az group deployment create --name ExampleDeployment --resource-group example --template-file template.json --parameters parameters.json
 
-The most likely issue you might encounter when deploying the resources is errors to do with unique or illegal values in your parameters file. Please note that the CLI will deploy the other resources with valid names even if one of the parameter is invalid. After deployment, if you get an error message, read the error, and change only the paramter value causing the error and run the above command. Your resources will not be duplicated if they are already deployed.
+The most likely issue you might encounter when deploying the resources is errors to do with unique or illegal values in your parameters file. Please note that the CLI will deploy the other resources with valid names even if one of the parameter is invalid. After deployment, if you get an error message, read the error, and change only the parameter value causing the error and run the above command. Your resources will not be duplicated if they are already deployed.
 
 7. If you view your resource group on Azure Portal, you should see 6 resources as shown below:
 
 ![](assets/deployed.PNG)
 
-The first 3 resources (Storage account,App Service, Application Insights, App Service Plan) are resources to support your functions, the Azure Cosmos DB account is where all your databases will live and the IoT Hub is your cloud endpoint for devices to connect to.
+The first 4 resources (Storage account,App Service, Application Insights, App Service Plan) are resources to support your functions, the Azure Cosmos DB account is where all your databases will live and the IoT Hub is your cloud endpoint for devices to connect to.
 
 8.  Add the Azure IoT CLI extension to the Azure CLI by running:
 
@@ -69,7 +69,7 @@ We will need this later.
 
 ![](assets/devicet.PNG)
 
-Click the **humidity_temp_sensor** template. You will see the configures measurements that the template expects from the device. The visuals will start to populate with some values, these are simulated values from the app itself, it just gives you an idea of how everything will be working. We will come back to this later.
+Click the **humidity_temp_sensor** template. You will see the configured measurements that the template expects from the device. The visuals will start to populate with some values, these are simulated values from the app itself, it just gives you an idea of how everything will be working. We will come back to this later.
 
 12. The **Device Template** is only a blue print of what data points the device is sending, we still need to configure an actual device. On the side navigation, click on **Devices**. You should see the the **humidity_temp_sensor** template. Click on it. Notice there is already a device for this template, that was generated automatically and it simulates your device data. Select **+**, then Real. Click **Create**
 
@@ -138,7 +138,7 @@ Save the file.
 
 ![](assets/install.PNG)
 
-If you view the files again, you should see a `node_modules` folder and a `package-lock.json` file. Restart the App (There is a restart icon on the top Level Function Application).
+If you view the files again, you should see a `node_modules` folder and a `package-lock.json` file. You many need to restart the app to see this (There is a restart icon on the top Level Function Application).
 ![](assets/restart.PNG)
 
 21. The Function should be sending telemetry to your IoT Hub every 15 seconds. Go back to your resource group and click on the IoT Hub. Under, the **Overview** Tab, scroll to bottom, there is a Visualization card named **IoT Hub Usage**, on it you will see the number of messages sent today (if it it more than zero, then the device simulator function is working correctly).
@@ -147,19 +147,19 @@ If you view the files again, you should see a `node_modules` folder and a `packa
 22. Now that messages are arriving on our IoT Hub, we need to take these messages and process them before forwarding them to the Azure IoT Central application. We will again, employ the use of Azure Functions for this, but this time instead of the trigger being a timer, the trigger will be a message arriving at the IoT Hub end point.
 23. Head back to you function application and add another function. This time, select the **IoT Hub (Event Hub)** template.
     ![](assets/iothubtemp.PNG)
-24. Install the required extensions (this may take a while). Give the Function a descriptive name, I will call mine `intermediateProcessing`. Under **Event Hub connection**, click *new\*\*, then choose *IoT hub\*, on the drop down that appears, choose the appropriate IoT hub you configured for the resource group (the one you registered device in). Click **Create**
+24. Install the required extensions (this may take a while). Give the Function a descriptive name, I will call mine `intermediateProcessing`. Under **Event Hub connection**, click **new**, then choose **IoT hub**, on the drop down that appears, choose the appropriate IoT hub you configured for the resource group (the one you registered the device in). Click **Create**
     ![](assets/iothubconn.PNG).
 25. If you check the logs you should get a similar output as the one shown below:
 
 ![](assets/hublogs.PNG)
 
-Go back to the web dashboard of the Azure Central Application you created. Click on **Devices** then choose the **humidity_temp_sensor**, select the real divice you made, at the top of the device dashboard, click **Connect**.
+Go back to the web dashboard of the Azure Central Application you created. Click on **Devices** then choose the **humidity_temp_sensor**, select the real device you made, at the top of the device dashboard, click **Connect**.
 
 ![](assets/popup.PNG)
 
 take note of the **Scope ID**, **Device ID**, and **Primary Key**.
 
-26. On your local repository, there is a folder named **intermediateProcessing** that contains code for the function app that processes data sent from the IoT Hub. Open this folder and change the below values with what you had noted down:
+26. On your local repository, there is a folder named **intermediateProcessing** that contains code for the function app that processes data sent from the IoT Hub. Open this folder and change the below values with what you have noted down:
 
 ```JavaScript
 const idScope = "{Scope ID}";
@@ -185,11 +185,15 @@ Under Outputs, Click the **+** to add new Output. Choose **Azure Cosmos DB** as 
 
 30. Under **Azure Cosmos DB account connection**, click on **_new_**. This opens a popup, which allows you to choose the appropriate Azure Cosmos DB account (the one you provisioined on this resource group). Please note that if you have other Azure Cosmos DB accounts, they will also appear (and you could as well store data in them), so choose the appropriate account. Click in Save.
 
-     ![](assets/dbaccount.PNG)
+    ![](assets/dbaccount.PNG)
 
 31. You may need to stop and start the Function App before it works as expected (When testing, the logs sometimes indicate that a certain module is not found, when infact the node_modules folder is already installed, so you need to restart the application and after a few seconds everything should be working as expected).
 
-32. Head over to your IoT Central Application and locate the real device you registered. On the Device page, you should see data trickling in.
+32. Confirm that data is being stored in the Azure CosmosDB. Go to your Resource Group, click on the Azure CosmosDB Account. On the overview pane, near the top there is a **Data Explorer** link that enables you to view your data. You should see a database named `outDatabase`, and a collection called `MyCollection`. Click on `MyCollection` then clikc on `Items`. You should see a collection of documents that represent the telemetry your device is producing. Click on any one of them, you will see a document containing a number of parameters (some are generated automatically, but some we calculated ourselves).
+
+![](assets/cosmos.PNG)
+
+33. Head over to your IoT Central Application and locate the real device you registered. On the Device page, you should see data trickling in.
 
 ![](assets/central.PNG)
 
@@ -198,4 +202,3 @@ Click on the Dashboard (still on the Azure IoT Central app). You should see a co
 ![](assets/consvisuals.PNG)
 
 That's it.
-
