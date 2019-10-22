@@ -142,7 +142,8 @@ If you view the files again, you should see a `node_modules` folder and a `packa
 ![](assets/restart.PNG)
 
 21. The Function should be sending telemetry to your IoT Hub every 15 seconds. Go back to your resource group and click on the IoT Hub. Under, the **Overview** Tab, scroll to bottom, there is a Visualization card named **IoT Hub Usage**, on it you will see the number of messages sent today (if it it more than zero, then the device simulator function is working correctly).
-    ![](assets/hub.PNG)
+
+![](assets/hub.PNG)
 
 22. Now that messages are arriving on our IoT Hub, we need to take these messages and process them before forwarding them to the Azure IoT Central application. We will again, employ the use of Azure Functions for this, but this time instead of the trigger being a timer, the trigger will be a message arriving at the IoT Hub end point.
 23. Head back to you function application and add another function. This time, select the **IoT Hub (Event Hub)** template.
@@ -179,13 +180,13 @@ This function takes data from the Azure IoT Hub, calculates some additional valu
 ![](assets/inter.PNG)
 Under Outputs, Click the **+** to add new Output. Choose **Azure Cosmos DB** as your output
 
-        ![](assets/azcosmos.PNG)
+![](assets/azcosmos.PNG)
 
 29. You will to install the extension. When that is done (if it hangs for too long just proceed), confirm the details of the CosmosDB accounts, you can leave everything as is set. Select the **If true, creates the Azure Cosmos DB database and collection**.
 
 30. Under **Azure Cosmos DB account connection**, click on **_new_**. This opens a popup, which allows you to choose the appropriate Azure Cosmos DB account (the one you provisioined on this resource group). Please note that if you have other Azure Cosmos DB accounts, they will also appear (and you could as well store data in them), so choose the appropriate account. Click in Save.
 
-    ![](assets/dbaccount.PNG)
+![](assets/dbaccount.PNG)
 
 31. You may need to stop and start the Function App before it works as expected (When testing, the logs sometimes indicate that a certain module is not found, when infact the node_modules folder is already installed, so you need to restart the application and after a few seconds everything should be working as expected).
 
