@@ -105,9 +105,9 @@ If you run into a nasty error about configuring WebStorage , follow the followin
 - Click on the Function App again. At the top, click on **Platform features**, then select **Configuration** which is under **General Settings**.
 - Under **Application settings**, Click on the **+** to add **New application setting**. The Name: **AzureWebJobsStorage**, the Value is the connection string you copied from the Azure Storage account. Click **OK**.
 - Add additional application settings with the below parameters:
-        - **Name**: WEBSITE_NODE_DEFAULT_VERSION **Value**: 10.14.1
-        - **Name**: FUNCTIONS_EXTENSION_VERSION **Value**: ~2
-        - **Name**: FUNCTIONS_WORKER_RUNTIME **Value**: node
+  - **Name**: WEBSITE_NODE_DEFAULT_VERSION **Value**: 10.14.1
+  - **Name**: FUNCTIONS_EXTENSION_VERSION **Value**: ~2
+  - **Name**: FUNCTIONS_WORKER_RUNTIME **Value**: node
 - Save the settings, you may need to refresh the app.
 - Return to the Function (I called mine **simulated-device**) you created and the error should be gone. To confirm your function is actually running, click on it, this should open the index.js file of the function, at the bottom of the pane, click on the **Logs** tab to expand it. Your output should be similar to the below illustrations.
 
@@ -129,7 +129,7 @@ var connectionString =
 
 Save the file.
 
-16. Back in the Azure Portal on the **simulated-device** tab on the far right, click **View files**, then **upload**. Upload both the **index.js** and **package.json** file in the **simulated-device** folder in the local directory. 
+16. Back in the Azure Portal on the **simulated-device** tab on the far right, click **View files**, then **upload**. Upload both the **index.js** and **package.json** file in the **simulated-device** folder in the local directory.
 
 17. In the portal, under your function, you should see some tabs at the bottom
 
