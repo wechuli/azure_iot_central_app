@@ -39,7 +39,11 @@ To put the solution together, we will make use the following Azure services:
 
 Take a note of the resource group name you used above, you will need it in subsequent steps.
 
-4. Now that we have a nice container for our resources, we can begin deploying the resources. We will deploy the Azure IoT Hub, a Function App (where our Azure Functions will be hosted) and the Azure Cosmos DB for data storage. The deployment template and a parameter file is provided in this folder. cd into the _deployment_templates_. There are two files, the template.json files describes the resources that will be provisioned in Azure and parameters.json are the parameters that will be used to deploy the parameters.
+4. Now that we have a nice container for our resources, we can begin deploying the resources. We will deploy the Azure IoT Hub, a Function App (where our Azure Functions will be hosted) and the Azure Cosmos DB for data storage. The deployment template and a parameter file is provided in this folder. cd into the _deployment_templates_ folder. There are two files, the template.json files describes the resources that will be provisioned in Azure and the _parameters.json_ are the parameters that will be used to deploy these resources.
+5. Open the _parameters.json_ file in your text editor. On a property called _parameters_ you will find all the necessary resources that the template needs to deploy the resources. They all have a value of `null`. For each input a unique string(preface it with your name or the name of your company e.g mycompanymainDB to ensure the names are globally unique). Avoid special charcaters as some of the resources only accept letters.
+6. Run the following command, changing the "ExampleGroup" resource group name to whatever you noted down.
+
+        $ az group deployment create --name ExampleDeployment --resource-group ExampleGroup --template-file template.json --parameters parameters.json
 
 ## Note
 
