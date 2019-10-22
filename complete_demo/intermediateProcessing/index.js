@@ -11,9 +11,9 @@ const ProvisioningDeviceClient = require("azure-iot-provisioning-device")
   .ProvisioningDeviceClient;
 
 const provisioningHost = "global.azure-devices-provisioning.net";
-const idScope = "0ne00086831";
-const registrationId = "1dd6930b-9b40-4622-81aa-db6c6aa49fbb";
-const symmetricKey = "89Rm3ATnQj+Pzc9Pk/47wmvy37cvXSshoUFwVbVNT3w=";
+const idScope = "0ne000883E3";
+const registrationId = "e0fd83d6-dda0-4b21-b32d-9e3a84dc5181";
+const symmetricKey = "+sfrUcn5kUhw2jtedCtTAAhVjO7mV+oCl2voZWMxOGQ=";
 const provisioningSecurityClient = new SymmetricKeySecurityClient(
   registrationId,
   symmetricKey

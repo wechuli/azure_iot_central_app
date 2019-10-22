@@ -89,17 +89,9 @@ Copy the returned `connectionString` value and store it somewhere, we will need 
 
 15. We are now going to make a virtual device, for convenience purposes, we will use a function to simulate data sent from a real device. You could run this on your own computer or even an actual device. We will use JavaScript (NodeJS) to write the simple application to simulate the device. Head back to the portal and click on the on the Function App (it is listed as an App Service resource type)
 
-![](functapp.PNG)
+![](assets/functapp.PNG)
 
-16.The first function we will create will be to simulate the virtual device. A convenient way to do this is to use a timer function that will be triggered periodically to send data to our IoT Hub (the same way a device would). Click on the **+**, under your Function's App , to create a function. Choose **create your own custom function**. Click on **Timer trigger**
-
-![](assets/timer.PNG)
-
-Choose JavaScript as the language and give the function a descriptive name, like **simulated-device**. On the Schedule, input `*/15 * * * * *`, this will fire the function every 15 seconds. Click create.
-
-![](assets/configtimer.PNG)
-
-If you run into a nasty error about configuring WebStorage , follow the following steps to do so.
+16. We will need to configure our Function application with some configuration settings before we can start writing the functions.
 
 - Go back to your resource group and select the **Storage account** resource. Under **Settings**, click on **Access keys**. Copy the Connection string of **key1**.
 - Click on the Function App again. At the top, click on **Platform features**, then select **Configuration** which is under **General Settings**.
@@ -109,11 +101,20 @@ If you run into a nasty error about configuring WebStorage , follow the followin
   - **Name**: FUNCTIONS_EXTENSION_VERSION **Value**: ~2
   - **Name**: FUNCTIONS_WORKER_RUNTIME **Value**: node
 - Save the settings, you may need to refresh the app.
-- Return to the Function (I called mine **simulated-device**) you created and the error should be gone. To confirm your function is actually running, click on it, this should open the index.js file of the function, at the bottom of the pane, click on the **Logs** tab to expand it. Your output should be similar to the below illustrations.
+
+17. The first function we will create will be to simulate the virtual device. A convenient way to do this is to use a timer function that will be triggered periodically to send data to our IoT Hub (the same way a device would). Click on the **+**, under your Function's App , to create a function. Click on **Timer trigger**. If you don't see this right away, click on either **Add Custom Function** or **Load More Templates**
+
+![](assets/timer.PNG)
+
+Give the function a descriptive name, like **simulated-device**. On the Schedule, input `*/15 * * * * *`, this will fire the function every 15 seconds. Click create.
+
+![](assets/configtimer.PNG)
+
+To confirm your function is actually running, click on it, this should open the index.js file of the function, at the bottom of the pane, click on the **Logs** tab to expand it. Your output should be similar to the below illustrations (the logs may have a slight delay, try refreshing the app).
 
 ![](assets/functlog.PNG)
 
-15. Click on the **simulated-device** function, on your far right, you should see the files that your function needs.Currently, you should have two files; **function.json** and **index.js**.
+18. Click on the **simulated-device** function, on your far right, you should see the files that your function needs.Currently, you should have two files; **function.json** and **index.js**.
 
 ![](assets/files.PNG)
 
@@ -123,25 +124,78 @@ We are going to upload code that will simulate the virtual device and send data 
 // Using the Azure CLI:
 // az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id MyNodeDevice --output table
 var connectionString =
-  "{input your connection strinf here}";
+  "{input your connection string here}";
 
 ```
 
 Save the file.
 
-16. Back in the Azure Portal on the **simulated-device** tab on the far right, click **View files**, then **upload**. Upload both the **index.js** and **package.json** file in the **simulated-device** folder in the local directory.
+**19.** Back in the Azure Portal on the **simulated-device** tab on the far right, click **View files**, then **upload**. Upload both the **index.js** and **package.json** file in the **simulated-device** folder in the local directory.
 
-17. In the portal, under your function, you should see some tabs at the bottom
+20. In the portal, under your function, you should see some tabs at the bottom. Click on the console and run `npm install` to install the required node modules.
 
 ![](assets/upload.PNG)
 
-## Note
+![](assets/install.PNG)
 
-- Make use of the azure cli top create the devices
-- Install the Azure Iot Hub Cli using -
+If you view the files again, you should see a `node_modules` folder and a `package-lock.json` file. Restart the App (There is a restart icon on the top Level Function Application).
+![](assets/restart.PNG)
 
-  az extension add --name azure-cli-iot-ext
+21. The Function should be sending telemetry to your IoT Hub every 15 seconds. Go back to your resource group and click on the IoT Hub. Under, the **Overview** Tab, scroll to bottom, there is a Visualization card named **IoT Hub Usage**, on it you will see the number of messages sent today (if it it more than zero, then the device simulator function is working correctly).
+    ![](assets/hub.PNG)
 
-        az iot hub device-identity create --hub-name {YourIoTHubName} --device-id MyNodeDevice
+22. Now that messages are arriving on our IoT Hub, we need to take these messages and process them before forwarding them to the Azure IoT Central application. We will again, employ the use of Azure Functions for this, but this time instead of the trigger being a timer, the trigger will be a message arriving at the IoT Hub end point.
+23. Head back to you function application and add another function. This time, select the **IoT Hub (Event Hub)** template.
+    ![](assets/iothubtemp.PNG)
+24. Install the required extensions (this may take a while). Give the Function a descriptive name, I will call mine `intermediateProcessing`. Under **Event Hub connection**, click *new\*\*, then choose *IoT hub\*, on the drop down that appears, choose the appropriate IoT hub you configured for the resource group (the one you registered device in). Click **Create**
+    ![](assets/iothubconn.PNG).
+25. If you check the logs you should get a similar output as the one shown below:
 
-        az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id mySimulatedDevice
+![](assets/hublogs.PNG)
+
+Go back to the web dashboard of the Azure Central Application you created. Click on **Devices** then choose the **humidity_temp_sensor**, select the real divice you made, at the top of the device dashboard, click **Connect**.
+
+![](assets/popup.PNG)
+
+take note of the **Scope ID**, **Device ID**, and **Primary Key**.
+
+26. On your local repository, there is a folder named **intermediateProcessing** that contains code for the function app that processes data sent from the IoT Hub. Open this folder and change the below values with what you had noted down:
+
+```JavaScript
+const idScope = "{Scope ID}";
+const registrationId = "{Device ID}";
+const symmetricKey = "{Primary Key}";
+
+```
+
+Remember to save the file.
+
+This function takes data from the Azure IoT Hub, calculates some additional values (chanceOfRain, temprature in Fahrenheit, timestamp, temprature status), before sending the processed data for visualization in the IoT Central Application. All the data processed is stored in Azure Cosmos DB for data persistence.
+
+27. The way we will get the function to run is almost identical to the **simulated-device** function we run earlier. Upload both the `index.js` and the `package.json` file to the `intermediateProcessing` function in the cloud. Run npm install. At this point, your application should **NOT** be working because Azure CosmosDB has not yet been configured.
+
+28. Click on the **intermediateProcessing** function in the portal, then choose **Integrate**
+
+![](assets/inter.PNG)
+Under Outputs, Click the **+** to add new Output. Choose **Azure Cosmos DB** as your output
+
+        ![](assets/azcosmos.PNG)
+
+29. You will to install the extension. When that is done (if it hangs for too long just proceed), confirm the details of the CosmosDB accounts, you can leave everything as is set. Select the **If true, creates the Azure Cosmos DB database and collection**.
+
+30. Under **Azure Cosmos DB account connection**, click on **_new_**. This opens a popup, which allows you to choose the appropriate Azure Cosmos DB account (the one you provisioined on this resource group). Please note that if you have other Azure Cosmos DB accounts, they will also appear (and you could as well store data in them), so choose the appropriate account. Click in Save.
+
+     ![](assets/dbaccount.PNG)
+
+31. You may need to stop and start the Function App before it works as expected (When testing, the logs sometimes indicate that a certain module is not found, when infact the node_modules folder is already installed, so you need to restart the application and after a few seconds everything should be working as expected).
+
+32. Head over to your IoT Central Application and locate the real device you registered. On the Device page, you should see data trickling in.
+
+![](assets/central.PNG)
+
+Click on the Dashboard (still on the Azure IoT Central app). You should see a consolidated graph visuals of the data.
+
+![](assets/consvisuals.PNG)
+
+That's it.
+
