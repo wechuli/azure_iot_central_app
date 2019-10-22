@@ -75,12 +75,15 @@ Click the **humidity_temp_sensor** template. You will see the configures measure
 
 ![](assets/created.PNG)
 
-Your device is now created and ready to receive telemetry. 
+Your device is now created and ready to receive telemetry.
 
-13. Now we need to start sending data since all our resources are set up. Referring back to our architecture, the first block in the flow is the virtual device (or a real one if you have one). Before a device is allowed to talk to the IoT Hub, it needs to be registered with the Azure IoT Hub. This is what we will do next, run the command below on the terminal to register and create a device in the IoT Hub. 
+13. Now we need to start sending data since all our resources are set up. Referring back to our architecture, the first block in the flow is the virtual device (or a real one if you have one). Before a device is allowed to talk to the IoT Hub, it needs to be registered with the Azure IoT Hub. This is what we will do next, run the command below on the terminal to register and create a device in the IoT Hub. You can log back into the terminal and confirm the name of your IoT hub, change the `--device-id` to your preferred name.
 
         $ az iot hub device-identity create --hub-name {YourIoTHubName} --device-id mySimulatedDevice
 
+14. The device is registered but we need its connection string which has the endpoint and keys. To get this, run the following command.
+
+        az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id mySimulatedDevice
 
 ## Note
 
@@ -91,4 +94,4 @@ Your device is now created and ready to receive telemetry.
 
         az iot hub device-identity create --hub-name {YourIoTHubName} --device-id MyNodeDevice
 
-        az iot hub device-identity show-connection-string --hub-name iotcentralhub --device-id temp_humidity_sensor
+        az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id mySimulatedDevice
