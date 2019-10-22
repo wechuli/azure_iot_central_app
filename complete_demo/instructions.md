@@ -85,6 +85,43 @@ Your device is now created and ready to receive telemetry.
 
         az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id mySimulatedDevice
 
+Copy the returned `connectionString` value and store it somewhere, we will need it in the preceeding steps.
+
+15. We are now going to make a virtual device, for convenience purposes, we will use a function to simulate data sent from a real device. You could run this on your own computer or even an actual device. We will use JavaScript (NodeJS) to write the simple application to simulate the device. Head back to the portal and click on the on the Function App (it is listed as an App Service resource type)
+
+![](functapp.PNG)
+
+16.The first function we will create will be to simulate the virtual device. A convenient way to do this is to use a timer function that will be triggered periodically to send data to our IoT Hub (the same way a device would). Click on the **+**, under your Function's App , to create a function. Choose **create your own custom function**. Click on **Timer trigger**
+
+![](assets/timer.PNG)
+
+Choose JavaScript as the language and give the function a descriptive name, like **simulated-device**. On the Schedule, input `*/15 * * * * *`, this will fire the function every 15 seconds. Click create.
+
+![](assets/configtimer.PNG)
+
+If you run into a nasty error about configuring WebStorage , follow the following steps to do so.
+
+- Go back to your resource group and select the **Storage account** resource. Under **Settings**, click on **Access keys**. Copy the Connection string of **key1**.
+- Click on the Function App again. At the top, click on **Platform features**, then select **Configuration** which is under **General Settings**.
+- Under **Application settings**, Click on the **+** to add **New application setting**. The Name: **AzureWebJobsStorage**, the Value is the connection string you copied from the Azure Storage account. Click **OK** and Save the settings, you may need to refresh the app.
+- Return to the Function (I called mine **simulated-device**) you created and the error should be gone. To confirm your function is actually running, click on it, this should open the index.js file of the function, at the bottom of the pane, click on the **Logs** tab to expand it. Your output should be similar to the below illustrations.
+
+![](assets/functlog.PNG)
+
+15. Click on the **simulated-device** function, on your far right, you should see the files that your function needs.Currently, you should have two files; **function.json** and **index.js**.
+
+![](assets/files.PNG)
+
+We are going to upload code that will simulate the virtual device and send data to the IoT Hub. Open the **simulated-device** folder in this directory. With a text editor such as VSCode, open the `index.js` file. This code sends simulated temprature and humidity values(and the device Id) to an IoT Hub endpoint. You need to edit the connection string value of the IoT Hub to send it to your configured hub and device (the IoT Hub connection string you noted down while registering a device).
+
+```JavaScript
+// Using the Azure CLI:
+// az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id MyNodeDevice --output table
+var connectionString =
+  "HostName=iotcentralhub.azure-devices.net;DeviceId=temp_humidity_sensor;SharedAccessKey=9egCeUCtnb6+P/4Xv3pgd09BhhfaBws8heLnNho8qbA=";
+
+```
+
 ## Note
 
 - Make use of the azure cli top create the devices
