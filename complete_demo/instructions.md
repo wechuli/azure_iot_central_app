@@ -53,15 +53,34 @@ The most likely issue you might encounter when deploying the resources is errors
 
 The first 3 resources (Storage account,App Service, Application Insights, App Service Plan) are resources to support your functions, the Azure Cosmos DB account is where all your databases will live and the IoT Hub is your cloud endpoint for devices to connect to.
 
-8. Add the Azure IoT CLI extension to the Azure CLI by running:
+8.  Add the Azure IoT CLI extension to the Azure CLI by running:
 
         $az extension add --name azure-cli-iot-ext
 
 We will need this later.
 
-9. Next, we can deploy the Azure Central Application that will receive and vizualize our processed IoT telemetry. Run the following command, changing the `--resource-group` parameter to the one you noted down, the `--name` and the `--subdomain`.You can change the `--display-name` to have a custom display name on the site. The subdomain parameter must be unique, so come up with a random string(use your name or the name of your company plus some random characters).
+9.  Next, we can deploy the Azure Central Application that will receive and vizualize our processed IoT telemetry. Run the following command, changing the `--resource-group` parameter to the one you noted down, the `--name` and the `--subdomain`. You can change the `--display-name` to have a custom display name on the site. The `--subdomain` and `--name` parameter must be unique, so come up with a random string(use your name or the name of your company plus some random characters). You may need to change these parameters a few times before the deployment succeeds.
 
         $az iotcentral app create --resource-group "example" --name "myiotcentralapp67ramds" --subdomain "myuniquesubdomain" --sku S1 --template "b922fba8-b44c-46e9-8e1f-c44b95bac98a" --display-name "HumidityandTempSensor"
+
+10. Log back to the portal and confirm the Azure IoT Central Application was deployed. Click on the resource. There isn't much you can do with the Application from the Portal, but from there you will get the application's url. Follow the URL and you will land on the Dashboard of the IoT Central Application.
+
+11. On the Left Side bar, under **App settings** click on **Device Templates**.
+
+![](assets/devicet.PNG)
+
+Click the **humidity_temp_sensor** template. You will see the configures measurements that the template expects from the device. The visuals will start to populate with some values, these are simulated values from the app itself, it just gives you an idea of how everything will be working. We will come back to this later.
+
+12. The **Device Template** is only a blue print of what data points the device is sending, we still need to configure an actual device. On the side navigation, click on **Devices**. You should see the the **humidity_temp_sensor** template. Click on it. Notice there is already a device for this template, that was generated automatically and it simulates your device data. Select **+**, then Real. Click **Create**
+
+![](assets/created.PNG)
+
+Your device is now created and ready to receive telemetry. 
+
+13. Now we need to start sending data since all our resources are set up. Referring back to our architecture, the first block in the flow is the virtual device (or a real one if you have one). Before a device is allowed to talk to the IoT Hub, it needs to be registered with the Azure IoT Hub. This is what we will do next, run the command below on the terminal to register and create a device in the IoT Hub. 
+
+        $ az iot hub device-identity create --hub-name {YourIoTHubName} --device-id mySimulatedDevice
+
 
 ## Note
 
